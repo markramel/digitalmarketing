@@ -1,0 +1,32 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "CampaignDataSheet",
+						"type": "DatasetReference"
+					},
+					"name": "CampaignDataSheet"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "CampaignDataSheetCsv",
+						"type": "DatasetReference"
+					},
+					"name": "CampaignDataSheetSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DerivedColumn1"
+				}
+			],
+			"script": "source(output(\n\t\t{Campaign Name} as string,\n\t\tAccount as string,\n\t\tLOB as string,\n\t\tBU as string,\n\t\t{PARENT CAMPAIGN NAME} as string,\n\t\t{SUB CAMPAIGN NAME} as string,\n\t\t{COUNTRY CODE} as string,\n\t\t{COUNTRY NAME} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tpartitionBy('hash', 1)) ~> CampaignDataSheet\nCampaignDataSheet derive(LOB = at(regexSplit(Account, '_'),1),\n\t\tBU = at(regexSplit(Account, '_'),2),\n\t\t{PARENT CAMPAIGN NAME} = at(regexSplit(Account, '_'),3),\n\t\t{SUB CAMPAIGN NAME} = at(regexSplit(Account, '_'),4),\n\t\t{COUNTRY CODE} = at(regexSplit(Account, '_'),5),\n\t\t{COUNTRY NAME} = at(regexSplit(Account, '_'),6),\n\tpartitionBy('hash', 1)) ~> DerivedColumn1\nDerivedColumn1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> CampaignDataSheetSink"
+		}
+	}
+}

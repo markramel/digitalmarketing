@@ -1,0 +1,9 @@
+{
+	"name": "DFC7A",
+	"location": "southeastasia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "82b7c6bb-793d-41fc-a131-4f8fa581ea64",
+		"tenantId": "07cc872f-b6e3-487f-834e-25eb4f34ddad"
+	}
+}

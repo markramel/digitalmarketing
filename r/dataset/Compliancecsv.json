@@ -1,0 +1,61 @@
+{
+	"name": "Compliancecsv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DigitalMarkertingAzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "DigitalMarketing/output",
+				"container": "conc7a"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Print|HPS|ConsumerHW|Sprocket|TW|Competition|Exact|Purchase|LL",
+				"type": "String"
+			},
+			{
+				"name": "OMG_HP_Print_APAC_PanAPAC_PanAPAC",
+				"type": "String"
+			},
+			{
+				"name": "APJ",
+				"type": "String"
+			},
+			{
+				"name": "Prop_3",
+				"type": "String"
+			},
+			{
+				"name": "Competition",
+				"type": "String"
+			},
+			{
+				"name": "Exact",
+				"type": "String"
+			},
+			{
+				"name": "Prop_6",
+				"type": "String"
+			},
+			{
+				"name": "SEATH",
+				"type": "String"
+			},
+			{
+				"name": "USD",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

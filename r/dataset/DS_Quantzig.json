@@ -1,0 +1,96 @@
+{
+	"name": "DS_Quantzig",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Quantzig",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Raw Data",
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Quantzig Case Study.xlsx",
+				"folderPath": "Quantzig",
+				"fileSystem": "conc7a"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Deal Id",
+				"type": "String"
+			},
+			{
+				"name": "company id",
+				"type": "String"
+			},
+			{
+				"name": "End User Account Facility Size",
+				"type": "String"
+			},
+			{
+				"name": "End User Account Country",
+				"type": "String"
+			},
+			{
+				"name": "End User Acc. Coverage Type",
+				"type": "String"
+			},
+			{
+				"name": "End User Account Legal Structure",
+				"type": "String"
+			},
+			{
+				"name": "End User Acc. ISIC MED",
+				"type": "String"
+			},
+			{
+				"name": "Business Type",
+				"type": "String"
+			},
+			{
+				"name": "Fulfilled PM Milestone",
+				"type": "String"
+			},
+			{
+				"name": "Incumbent vendor",
+				"type": "String"
+			},
+			{
+				"name": "Opportunity Type",
+				"type": "String"
+			},
+			{
+				"name": "Oppty System Department",
+				"type": "String"
+			},
+			{
+				"name": "Reason",
+				"type": "String"
+			},
+			{
+				"name": "Sales type",
+				"type": "String"
+			},
+			{
+				"name": "System Diagram",
+				"type": "String"
+			},
+			{
+				"name": "Tender",
+				"type": "String"
+			},
+			{
+				"name": "System status",
+				"type": "String"
+			},
+			{
+				"name": "won / lost market EUR",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
