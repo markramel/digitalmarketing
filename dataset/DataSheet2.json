@@ -1,0 +1,60 @@
+{
+	"name": "DataSheet2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DigitalMarkertingAzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Data Sheet 2.xlsx",
+				"folderPath": "DigitalMarketing/Input",
+				"container": "conc7a"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Campaign Name",
+				"type": "String"
+			},
+			{
+				"name": "Account",
+				"type": "String"
+			},
+			{
+				"name": "REGION",
+				"type": "String"
+			},
+			{
+				"name": "xCampaign Quarter",
+				"type": "String"
+			},
+			{
+				"name": "Search Keyword Type",
+				"type": "String"
+			},
+			{
+				"name": "Search Match Type",
+				"type": "String"
+			},
+			{
+				"name": "Emea Region",
+				"type": "String"
+			},
+			{
+				"name": "Emea Sub Region",
+				"type": "String"
+			},
+			{
+				"name": "xAccount Currency",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,140 @@
+{
+	"name": "ParentDataStream",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DigitalMarkertingAzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Parent Data Stream.xlsx",
+				"folderPath": "DigitalMarketing/Input",
+				"container": "conc7a"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "SOURCE",
+				"type": "String"
+			},
+			{
+				"name": "xMedia Group",
+				"type": "String"
+			},
+			{
+				"name": "MEDIA TYPE",
+				"type": "String"
+			},
+			{
+				"name": "xMedia Channel",
+				"type": "String"
+			},
+			{
+				"name": "Agency Channel Name",
+				"type": "String"
+			},
+			{
+				"name": "Campaign Name",
+				"type": "String"
+			},
+			{
+				"name": "Account",
+				"type": "String"
+			},
+			{
+				"name": "LOB",
+				"type": "String"
+			},
+			{
+				"name": "BU",
+				"type": "String"
+			},
+			{
+				"name": "PARENT CAMPAIGN NAME",
+				"type": "String"
+			},
+			{
+				"name": "SUB CAMPAIGN NAME",
+				"type": "String"
+			},
+			{
+				"name": "COUNTRY CODE",
+				"type": "String"
+			},
+			{
+				"name": "COUNTRY NAME",
+				"type": "String"
+			},
+			{
+				"name": "REGION",
+				"type": "String"
+			},
+			{
+				"name": "xCampaign Quarter",
+				"type": "String"
+			},
+			{
+				"name": "Search Keyword Type",
+				"type": "String"
+			},
+			{
+				"name": "Search Match Type",
+				"type": "String"
+			},
+			{
+				"name": "Emea Region",
+				"type": "String"
+			},
+			{
+				"name": "Emea Sub Region",
+				"type": "String"
+			},
+			{
+				"name": "xAccount Currency",
+				"type": "String"
+			},
+			{
+				"name": "Compliant",
+				"type": "String"
+			},
+			{
+				"name": "Agency Owner Market",
+				"type": "String"
+			},
+			{
+				"name": "Campaign Scale",
+				"type": "String"
+			},
+			{
+				"name": "Campaign Objective",
+				"type": "String"
+			},
+			{
+				"name": "Media Brief Name",
+				"type": "String"
+			},
+			{
+				"name": "Impression ",
+				"type": "String"
+			},
+			{
+				"name": "Click",
+				"type": "String"
+			},
+			{
+				"name": "View",
+				"type": "String"
+			},
+			{
+				"name": "Swipe rate",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

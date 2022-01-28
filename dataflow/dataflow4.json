@@ -1,0 +1,42 @@
+{
+	"name": "dataflow4",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ParentDataStream",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Compliancecsv",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "NonCompliancecsv",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "ConditionalSplit1"
+				}
+			],
+			"script": "source(output(\n\t\tSOURCE as string,\n\t\t{xMedia Group} as string,\n\t\t{MEDIA TYPE} as string,\n\t\t{xMedia Channel} as string,\n\t\t{Agency Channel Name} as string,\n\t\t{Campaign Name} as string,\n\t\tAccount as string,\n\t\tLOB as string,\n\t\tBU as string,\n\t\t{PARENT CAMPAIGN NAME} as string,\n\t\t{SUB CAMPAIGN NAME} as string,\n\t\t{COUNTRY CODE} as string,\n\t\t{COUNTRY NAME} as string,\n\t\tREGION as string,\n\t\t{xCampaign Quarter} as string,\n\t\t{Search Keyword Type} as string,\n\t\t{Search Match Type} as string,\n\t\t{Emea Region} as string,\n\t\t{Emea Sub Region} as string,\n\t\t{xAccount Currency} as string,\n\t\tCompliant as string,\n\t\t{Agency Owner Market} as string,\n\t\t{Campaign Scale} as string,\n\t\t{Campaign Objective} as string,\n\t\t{Media Brief Name} as string,\n\t\t{Impression } as string,\n\t\tClick as string,\n\t\tView as string,\n\t\t{Swipe rate} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tpartitionBy('hash', 1)) ~> source1\nsource1 derive(Compliant = iif(Compliant == \"Compliant\", \"Compliance\", \"Non-Compliance\"),\n\tpartitionBy('hash', 1)) ~> DerivedColumn1\nDerivedColumn1 split(iif(Compliant == \"Compliance\", true(), false()),\n\tdisjoint: false,\n\tpartitionBy('hash', 1)) ~> ConditionalSplit1@(Compliant, NonCompliant)\nConditionalSplit1@Compliant sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\t{Print|HPS|ConsumerHW|Sprocket|TW|Competition|Exact|Purchase|LL} as string,\n\t\tOMG_HP_Print_APAC_PanAPAC_PanAPAC as string,\n\t\tAPJ as string,\n\t\tProp_3 as string,\n\t\tCompetition as string,\n\t\tExact as string,\n\t\tProp_6 as string,\n\t\tSEATH as string,\n\t\tUSD as string\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1\nConditionalSplit1@NonCompliant sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tColumn_1 as string,\n\t\tColumn_2 as string,\n\t\tColumn_3 as string,\n\t\tColumn_4 as string,\n\t\tColumn_5 as string,\n\t\tColumn_6 as string,\n\t\tColumn_7 as string,\n\t\tColumn_8 as string,\n\t\tColumn_9 as string\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink2"
+		}
+	}
+}
