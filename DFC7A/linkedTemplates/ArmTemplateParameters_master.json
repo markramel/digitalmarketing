@@ -11,6 +11,9 @@
 		"DigitalMarkertingAzureBlobStorage1_connectionString": {
 			"value": ""
 		},
+		"DigitalMarketingAzureSqlDatabase2_connectionString": {
+			"value": ""
+		},
 		"LS_Quantzig_accountKey": {
 			"value": ""
 		},

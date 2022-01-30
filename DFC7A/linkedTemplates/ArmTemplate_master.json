@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'DigitalMarkertingAzureBlobStorage1'"
 		},
+		"DigitalMarketingAzureSqlDatabase2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'DigitalMarketingAzureSqlDatabase2'"
+		},
 		"LS_Quantzig_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_Quantzig'"
@@ -56,6 +60,9 @@
 					"DigitalMarkertingAzureBlobStorage1_connectionString": {
 						"value": "[parameters('DigitalMarkertingAzureBlobStorage1_connectionString')]"
 					},
+					"DigitalMarketingAzureSqlDatabase2_connectionString": {
+						"value": "[parameters('DigitalMarketingAzureSqlDatabase2_connectionString')]"
+					},
 					"LS_Quantzig_accountKey": {
 						"value": "[parameters('LS_Quantzig_accountKey')]"
 					},
@@ -65,6 +72,26 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "DFC7A_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFC7A_ArmTemplate_0')]"
+			]
 		}
 	]
 }
