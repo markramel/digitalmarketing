@@ -7,6 +7,14 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DFC7A"
 		},
+		"AzureDataLakeStorage1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
+		},
+		"AzureDataLakeStorage2_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage2'"
+		},
 		"AzureSqlDatabase1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
@@ -15,9 +23,21 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'DigitalMarkertingAzureBlobStorage1'"
 		},
+		"DigitalMarketingAzureSqlDatabase2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'DigitalMarketingAzureSqlDatabase2'"
+		},
 		"LS_Quantzig_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_Quantzig'"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://synapsedlakestgen2mark.dfs.core.windows.net"
+		},
+		"AzureDataLakeStorage2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://synapsedlakestgen2mark.dfs.core.windows.net"
 		},
 		"LS_Quantzig_properties_typeProperties_url": {
 			"type": "string",
@@ -172,6 +192,101 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/dataflow2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ParentDataStreampipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow5",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-01-30T12:40:08Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow5')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ParquetParentDataStreampipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DigitalMarketingParquet",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow6leveluptosynapse",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow6leveluptosynapse')]"
 			]
 		},
 		{
@@ -791,6 +906,175 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ParentDataStreamAzureSqlTable2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DigitalMarketingAzureSqlDatabase2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SOURCE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "xMedia Group",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MEDIA TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "xMedia Channel",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Agency Channel Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Campaign Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Account",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LOB",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BU",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PARENT CAMPAIGN NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SUB CAMPAIGN NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "COUNTRY CODE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "COUNTRY NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "REGION",
+						"type": "nvarchar"
+					},
+					{
+						"name": "xCampaign Quarter",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Search Keyword Type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Search Match Type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Emea Region",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Emea Sub Region",
+						"type": "nvarchar"
+					},
+					{
+						"name": "xAccount Currency",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Compliant",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Agency Owner Market",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Campaign Scale",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Campaign Objective",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Media Brief Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Impression ",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Click",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "View",
+						"type": "decimal",
+						"precision": 8,
+						"scale": 2
+					},
+					{
+						"name": "Swipe rate",
+						"type": "decimal",
+						"precision": 8,
+						"scale": 2
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ParentDataSream"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DigitalMarketingAzureSqlDatabase2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Parquet1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "parentdatastream",
+						"fileSystem": "dlsg2markfilesystem"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage2')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/TotalImpresssionClickView')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -856,6 +1140,40 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('AzureDataLakeStorage2_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDataLakeStorage2_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -877,6 +1195,19 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('DigitalMarkertingAzureBlobStorage1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DigitalMarketingAzureSqlDatabase2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('DigitalMarketingAzureSqlDatabase2_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -1076,6 +1407,82 @@
 				"[concat(variables('factoryId'), '/datasets/ParentDataStream')]",
 				"[concat(variables('factoryId'), '/datasets/Compliancecsv')]",
 				"[concat(variables('factoryId'), '/datasets/NonCompliancecsv')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow5')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ParentDataStream",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ParentDataStreamAzureSqlTable2",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "DerivedColumn1"
+						}
+					],
+					"script": "source(output(\n\t\tSOURCE as string,\n\t\t{xMedia Group} as string,\n\t\t{MEDIA TYPE} as string,\n\t\t{xMedia Channel} as string,\n\t\t{Agency Channel Name} as string,\n\t\t{Campaign Name} as string,\n\t\tAccount as string,\n\t\tLOB as string,\n\t\tBU as string,\n\t\t{PARENT CAMPAIGN NAME} as string,\n\t\t{SUB CAMPAIGN NAME} as string,\n\t\t{COUNTRY CODE} as string,\n\t\t{COUNTRY NAME} as string,\n\t\tREGION as string,\n\t\t{xCampaign Quarter} as string,\n\t\t{Search Keyword Type} as string,\n\t\t{Search Match Type} as string,\n\t\t{Emea Region} as string,\n\t\t{Emea Sub Region} as string,\n\t\t{xAccount Currency} as string,\n\t\tCompliant as string,\n\t\t{Agency Owner Market} as string,\n\t\t{Campaign Scale} as string,\n\t\t{Campaign Objective} as string,\n\t\t{Media Brief Name} as string,\n\t\t{Impression } as string,\n\t\tClick as string,\n\t\tView as string,\n\t\t{Swipe rate} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tpartitionBy('hash', 1)) ~> source1\nsource1 derive(Compliant = iif(Compliant == \"Compliant\", \"Compliance\", \"Non-Compliance\"),\n\t\t{Emea Region} = iif(isNull({Emea Region}), \"Unclassified\", toString({Emea Region})),\n\t\t{Search Match Type} = iif(isNull({Search Match Type}), \"Unclassified\", toString({Search Match Type})),\n\t\t{Emea Sub Region} = iif(isNull({Emea Sub Region}), \"Unclassified\", toString({Emea Sub Region})),\n\t\t{Campaign Scale} = iif(isNull({Campaign Scale}), \"Unclassified\", toString({Campaign Scale})),\n\t\t{Campaign Objective} = iif(isNull({Campaign Objective}), \"Unclassified\", toString({Campaign Objective})),\n\t\t{Search Keyword Type} = iif(isNull({Search Keyword Type}), \"Unclassified\", toString({Search Keyword Type})),\n\t\t{xCampaign Quarter} = iif(isNull({xCampaign Quarter}), \"Unclassified\", toString({xCampaign Quarter})),\n\t\tYear = iif(isNull(at(regexSplit({xCampaign Quarter}, '-'),2)),\"2020\" , at(regexSplit({xCampaign Quarter}, '-'),1)),\n\t\tQuarter = iif(isNull(at(regexSplit({xCampaign Quarter}, '-'),2)),at(regexSplit({xCampaign Quarter}, '-'),1) , at(regexSplit({xCampaign Quarter}, '-'),2)),\n\tpartitionBy('hash', 1)) ~> DerivedColumn1\nDerivedColumn1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tSOURCE as string,\n\t\t{xMedia Group} as string,\n\t\t{MEDIA TYPE} as string,\n\t\t{xMedia Channel} as string,\n\t\t{Agency Channel Name} as string,\n\t\t{Campaign Name} as string,\n\t\tAccount as string,\n\t\tLOB as string,\n\t\tBU as string,\n\t\t{PARENT CAMPAIGN NAME} as string,\n\t\t{SUB CAMPAIGN NAME} as string,\n\t\t{COUNTRY CODE} as string,\n\t\t{COUNTRY NAME} as string,\n\t\tREGION as string,\n\t\t{xCampaign Quarter} as string,\n\t\t{Search Keyword Type} as string,\n\t\t{Search Match Type} as string,\n\t\t{Emea Region} as string,\n\t\t{Emea Sub Region} as string,\n\t\t{xAccount Currency} as string,\n\t\tCompliant as string,\n\t\t{Agency Owner Market} as string,\n\t\t{Campaign Scale} as string,\n\t\t{Campaign Objective} as string,\n\t\t{Media Brief Name} as string,\n\t\t{Impression } as integer,\n\t\tClick as integer,\n\t\tView as decimal(8,2),\n\t\t{Swipe rate} as decimal(8,2)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink1"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ParentDataStream')]",
+				"[concat(variables('factoryId'), '/datasets/ParentDataStreamAzureSqlTable2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow6leveluptosynapse')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ParentDataStream",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Parquet1",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "DerivedColumn1"
+						}
+					],
+					"script": "source(output(\n\t\tSOURCE as string,\n\t\t{xMedia Group} as string,\n\t\t{MEDIA TYPE} as string,\n\t\t{xMedia Channel} as string,\n\t\t{Agency Channel Name} as string,\n\t\t{Campaign Name} as string,\n\t\tAccount as string,\n\t\tLOB as string,\n\t\tBU as string,\n\t\t{PARENT CAMPAIGN NAME} as string,\n\t\t{SUB CAMPAIGN NAME} as string,\n\t\t{COUNTRY CODE} as string,\n\t\t{COUNTRY NAME} as string,\n\t\tREGION as string,\n\t\t{xCampaign Quarter} as string,\n\t\t{Search Keyword Type} as string,\n\t\t{Search Match Type} as string,\n\t\t{Emea Region} as string,\n\t\t{Emea Sub Region} as string,\n\t\t{xAccount Currency} as string,\n\t\tCompliant as string,\n\t\t{Agency Owner Market} as string,\n\t\t{Campaign Scale} as string,\n\t\t{Campaign Objective} as string,\n\t\t{Media Brief Name} as string,\n\t\t{Impression } as string,\n\t\tClick as string,\n\t\tView as string,\n\t\t{Swipe rate} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tpartitionBy('hash', 1)) ~> source1\nsource1 derive(Compliant = iif(Compliant == \"Compliant\", \"Compliance\", \"Non-Compliance\"),\n\t\t{Emea Region} = iif(isNull({Emea Region}), \"Unclassified\", toString({Emea Region})),\n\t\t{Search Match Type} = iif(isNull({Search Match Type}), \"Unclassified\", toString({Search Match Type})),\n\t\t{Emea Sub Region} = iif(isNull({Emea Sub Region}), \"Unclassified\", toString({Emea Sub Region})),\n\t\t{Campaign Scale} = iif(isNull({Campaign Scale}), \"Unclassified\", toString({Campaign Scale})),\n\t\t{Campaign Objective} = iif(isNull({Campaign Objective}), \"Unclassified\", toString({Campaign Objective})),\n\t\t{Search Keyword Type} = iif(isNull({Search Keyword Type}), \"Unclassified\", toString({Search Keyword Type})),\n\t\t{xCampaign Quarter} = iif(isNull({xCampaign Quarter}), \"Unclassified\", toString({xCampaign Quarter})),\n\t\tYear = iif(isNull(at(regexSplit({xCampaign Quarter}, '-'),2)),\"2020\" , at(regexSplit({xCampaign Quarter}, '-'),1)),\n\t\tQuarter = iif(isNull(at(regexSplit({xCampaign Quarter}, '-'),2)),at(regexSplit({xCampaign Quarter}, '-'),1) , at(regexSplit({xCampaign Quarter}, '-'),2)),\n\tpartitionBy('hash', 1)) ~> DerivedColumn1\nDerivedColumn1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet',\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tmapColumn(\n\t\tSOURCE,\n\t\txMediaGroup = {xMedia Group},\n\t\tMEDIATYPE = {MEDIA TYPE},\n\t\txMediaChannel = {xMedia Channel},\n\t\tAgencyChannelName = {Agency Channel Name},\n\t\tCampaignName = {Campaign Name},\n\t\tAccount,\n\t\tLOB,\n\t\tBU,\n\t\tPARENTCAMPAIGNNAME = {PARENT CAMPAIGN NAME},\n\t\tSUBCAMPAIGNNAME = {SUB CAMPAIGN NAME},\n\t\tCOUNTRYCODE = {COUNTRY CODE},\n\t\tCOUNTRYNAME = {COUNTRY NAME},\n\t\tREGION,\n\t\txCampaignQuarter = {xCampaign Quarter},\n\t\tSearchKeywordType = {Search Keyword Type},\n\t\tSearchMatchType = {Search Match Type},\n\t\tEmeaRegion = {Emea Region},\n\t\tEmeaSubRegion = {Emea Sub Region},\n\t\txAccountCurrency = {xAccount Currency},\n\t\tCompliant,\n\t\tAgencyOwnerMarket = {Agency Owner Market},\n\t\tCampaignScale = {Campaign Scale},\n\t\tCampaignObjective = {Campaign Objective},\n\t\tMediaBriefName = {Media Brief Name},\n\t\tImpression = {Impression },\n\t\tClick,\n\t\tView,\n\t\tSwiperate = {Swipe rate},\n\t\tYear,\n\t\tQuarter\n\t),\n\tpartitionBy('hash', 1)) ~> sink1"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ParentDataStream')]",
+				"[concat(variables('factoryId'), '/datasets/Parquet1')]"
 			]
 		}
 	]
