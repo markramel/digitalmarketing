@@ -5,13 +5,13 @@
 		"factoryName": {
 			"value": "DFC7A"
 		},
-		"AzureDataLakeStorage1_accountKey": {
-			"value": ""
-		},
 		"AzureDataLakeStorage2_accountKey": {
 			"value": ""
 		},
-		"AzureSqlDatabase1_connectionString": {
+		"AzureDataLakeStorage3_accountKey": {
+			"value": ""
+		},
+		"AzureDataLakeStorage4_accountKey": {
 			"value": ""
 		},
 		"DigitalMarkertingAzureBlobStorage1_connectionString": {
@@ -23,10 +23,13 @@
 		"LS_Quantzig_accountKey": {
 			"value": ""
 		},
-		"AzureDataLakeStorage1_properties_typeProperties_url": {
+		"AzureDataLakeStorage2_properties_typeProperties_url": {
 			"value": "https://synapsedlakestgen2mark.dfs.core.windows.net"
 		},
-		"AzureDataLakeStorage2_properties_typeProperties_url": {
+		"AzureDataLakeStorage3_properties_typeProperties_url": {
+			"value": "https://synapsedlakestgen2mark.dfs.core.windows.net"
+		},
+		"AzureDataLakeStorage4_properties_typeProperties_url": {
 			"value": "https://synapsedlakestgen2mark.dfs.core.windows.net"
 		},
 		"LS_Quantzig_properties_typeProperties_url": {

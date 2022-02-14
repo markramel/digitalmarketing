@@ -7,17 +7,17 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DFC7A"
 		},
-		"AzureDataLakeStorage1_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
-		},
 		"AzureDataLakeStorage2_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage2'"
 		},
-		"AzureSqlDatabase1_connectionString": {
+		"AzureDataLakeStorage3_accountKey": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage3'"
+		},
+		"AzureDataLakeStorage4_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage4'"
 		},
 		"DigitalMarkertingAzureBlobStorage1_connectionString": {
 			"type": "secureString",
@@ -31,11 +31,15 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_Quantzig'"
 		},
-		"AzureDataLakeStorage1_properties_typeProperties_url": {
+		"AzureDataLakeStorage2_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://synapsedlakestgen2mark.dfs.core.windows.net"
 		},
-		"AzureDataLakeStorage2_properties_typeProperties_url": {
+		"AzureDataLakeStorage3_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://synapsedlakestgen2mark.dfs.core.windows.net"
+		},
+		"AzureDataLakeStorage4_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://synapsedlakestgen2mark.dfs.core.windows.net"
 		},
@@ -48,23 +52,6 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage2')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -83,14 +70,35 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage3')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"type": "AzureSqlDatabase",
+				"type": "AzureBlobFS",
 				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
+					"url": "[parameters('AzureDataLakeStorage3_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDataLakeStorage3_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage4')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('AzureDataLakeStorage4_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDataLakeStorage4_accountKey')]"
+					}
 				}
 			},
 			"dependsOn": []
@@ -856,7 +864,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage2",
+					"referenceName": "AzureDataLakeStorage4",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -864,7 +872,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "part-00000-tid-2886452130161708956-505b6f93-044e-4c7f-827f-9afed77f318c-4-1-c000.snappy.parquet",
 						"folderPath": "parentdatastream",
 						"fileSystem": "dlsg2markfilesystem"
 					},
@@ -998,7 +1005,7 @@
 				]
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage2')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage4')]"
 			]
 		},
 		{
@@ -1064,6 +1071,156 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/DigitalMarkertingAzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/parquetparentdatastream')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "parentdatastream",
+						"fileSystem": "dlsg2markfilesystem"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "SOURCE",
+						"type": "UTF8"
+					},
+					{
+						"name": "xMediaGroup",
+						"type": "UTF8"
+					},
+					{
+						"name": "MEDIATYPE",
+						"type": "UTF8"
+					},
+					{
+						"name": "xMediaChannel",
+						"type": "UTF8"
+					},
+					{
+						"name": "AgencyChannelName",
+						"type": "UTF8"
+					},
+					{
+						"name": "CampaignName",
+						"type": "UTF8"
+					},
+					{
+						"name": "Account",
+						"type": "UTF8"
+					},
+					{
+						"name": "LOB",
+						"type": "UTF8"
+					},
+					{
+						"name": "BU",
+						"type": "UTF8"
+					},
+					{
+						"name": "PARENTCAMPAIGNNAME",
+						"type": "UTF8"
+					},
+					{
+						"name": "SUBCAMPAIGNNAME",
+						"type": "UTF8"
+					},
+					{
+						"name": "COUNTRYCODE",
+						"type": "UTF8"
+					},
+					{
+						"name": "COUNTRYNAME",
+						"type": "UTF8"
+					},
+					{
+						"name": "REGION",
+						"type": "UTF8"
+					},
+					{
+						"name": "xCampaignQuarter",
+						"type": "UTF8"
+					},
+					{
+						"name": "SearchKeywordType",
+						"type": "UTF8"
+					},
+					{
+						"name": "SearchMatchType",
+						"type": "UTF8"
+					},
+					{
+						"name": "EmeaRegion",
+						"type": "UTF8"
+					},
+					{
+						"name": "EmeaSubRegion",
+						"type": "UTF8"
+					},
+					{
+						"name": "xAccountCurrency",
+						"type": "UTF8"
+					},
+					{
+						"name": "Compliant",
+						"type": "UTF8"
+					},
+					{
+						"name": "AgencyOwnerMarket",
+						"type": "UTF8"
+					},
+					{
+						"name": "CampaignScale",
+						"type": "UTF8"
+					},
+					{
+						"name": "CampaignObjective",
+						"type": "UTF8"
+					},
+					{
+						"name": "MediaBriefName",
+						"type": "UTF8"
+					},
+					{
+						"name": "Impression",
+						"type": "UTF8"
+					},
+					{
+						"name": "Click",
+						"type": "UTF8"
+					},
+					{
+						"name": "View",
+						"type": "UTF8"
+					},
+					{
+						"name": "Swiperate",
+						"type": "UTF8"
+					},
+					{
+						"name": "Year",
+						"type": "UTF8"
+					},
+					{
+						"name": "Quarter",
+						"type": "UTF8"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage3')]"
 			]
 		},
 		{
@@ -1157,44 +1314,6 @@
 				"[concat(variables('factoryId'), '/datasets/DataSheet2')]",
 				"[concat(variables('factoryId'), '/datasets/ParentDataStream')]",
 				"[concat(variables('factoryId'), '/datasets/DataSheet2csv')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow3')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ParentDataStream",
-								"type": "DatasetReference"
-							},
-							"name": "ParentDataStream"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "TotalImpresssionClickView",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [
-						{
-							"name": "Aggregate1"
-						}
-					],
-					"script": "source(output(\n\t\tSOURCE as string,\n\t\t{xMedia Group} as string,\n\t\t{MEDIA TYPE} as string,\n\t\t{xMedia Channel} as string,\n\t\t{Agency Channel Name} as string,\n\t\t{Campaign Name} as string,\n\t\tAccount as string,\n\t\tLOB as string,\n\t\tBU as string,\n\t\t{PARENT CAMPAIGN NAME} as string,\n\t\t{SUB CAMPAIGN NAME} as string,\n\t\t{COUNTRY CODE} as string,\n\t\t{COUNTRY NAME} as string,\n\t\tREGION as string,\n\t\t{xCampaign Quarter} as string,\n\t\t{Search Keyword Type} as string,\n\t\t{Search Match Type} as string,\n\t\t{Emea Region} as string,\n\t\t{Emea Sub Region} as string,\n\t\t{xAccount Currency} as string,\n\t\tCompliant as string,\n\t\t{Agency Owner Market} as string,\n\t\t{Campaign Scale} as string,\n\t\t{Campaign Objective} as string,\n\t\t{Media Brief Name} as string,\n\t\t{Impression } as integer,\n\t\tClick as integer,\n\t\tView as decimal(10,0),\n\t\t{Swipe rate} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tpartitionBy('hash', 1)) ~> ParentDataStream\nParentDataStream aggregate(Impression = sum({Impression }),\n\t\tClick = sum(Click),\n\t\tView = sum(View),\n\tpartitionBy('hash', 1)) ~> Aggregate1\nAggregate1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\t{Print|HPS|ConsumerHW|Sprocket|TW|Competition|Exact|Purchase|LL} as string,\n\t\tOMG_HP_Print_APAC_PanAPAC_PanAPAC as string,\n\t\tAPJ as string,\n\t\tProp_3 as string,\n\t\tCompetition as string,\n\t\tExact as string,\n\t\tProp_6 as string,\n\t\tSEATH as string,\n\t\tUSD as string\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> sink1"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ParentDataStream')]",
-				"[concat(variables('factoryId'), '/datasets/TotalImpresssionClickView')]"
 			]
 		}
 	]
