@@ -135,5 +135,6 @@
 			"schema": "dbo",
 			"table": "ParentDataSream"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }
